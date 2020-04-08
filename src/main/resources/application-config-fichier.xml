@@ -9,8 +9,10 @@
 	
 	<import resource="application-config-common.xml"/>
 	 
-	 <!-- Constructeur sans arguments-->
-	 <bean id="platDao" class="dev.dao.PlatDaoMemoire"></bean>
+	 <!-- Constructeur avec un argument fichier -->
+	 <bean id="platDao" class="dev.dao.PlatDaoFichier">
+	 	<constructor-arg value="D:/Programmes/SpringToolSuite/restaurant-console-app/src/main/resources/restaurant.txt"></constructor-arg>
+	 </bean>
 	 
 	  
 </beans>
