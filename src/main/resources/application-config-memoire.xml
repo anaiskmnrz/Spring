@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	 <!-- Configuration d'un bean dont l'identifiant est "scanner". 
+	Il est créé à partir de la classe "java.util.Scanner"-->
+	
+	 <bean id="scanner" class="java.util.Scanner">
+	 	<constructor-arg>
+	 	<!-- Référencement du champ static "System.in" -->
+	 	<util:constant static-field="java.lang.System.in"></util:constant>
+	 	</constructor-arg>
+	 </bean>
+	 
+	 <!-- Constructeur avec un argument fichier -->
+	 <bean id="platdao" class="dev.dao.PlatDaoFichier">
+	 	<constructor-arg value="D:/Programmes/SpringToolSuite/restaurant-console-app/src/main/resources/restaurant.txt"></constructor-arg>
+	 </bean>
+	 
+	 <!-- Constructeur avec un argument platdao -->
+	 <bean id="service" class="dev.service.PlatServiceVersion2">
+	 	<constructor-arg ref="platdao"></constructor-arg>
+	 </bean>
+	 
+	 <!-- Constructeur avec deux arguments : scanner et platservice -->
+	 <bean id="menu" class="dev.ihm.Menu">
+	 	<constructor-arg ref="scanner"></constructor-arg>
+		<constructor-arg ref="service"></constructor-arg>
+	 </bean>
+	 
+</beans>

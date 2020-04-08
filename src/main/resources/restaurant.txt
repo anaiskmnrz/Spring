@@ -1,0 +1,7 @@
+Plat 1;1200
+Plat 2;1400
+Plat 3;6000
+Plat 4;700
+moulesfrites;1500
+couscous;1600
+fritessteak;1800
