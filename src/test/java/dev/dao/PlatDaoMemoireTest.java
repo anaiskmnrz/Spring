@@ -3,14 +3,11 @@
  */
 package dev.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import dev.entite.Plat;
 
 /** Test de la classe PlatMemoireTest
  *
@@ -29,13 +26,13 @@ public class PlatDaoMemoireTest {
 	@Test
 	void listerPlatsVideALInitialisation() {
 		
-		assertEquals(true,platDaoMemoire.listerPlats().isEmpty());
+		assertTrue(platDaoMemoire.listerPlats().isEmpty());
 	}
 	
 	@Test
 	void ajouterPlatCasPassants() {
 		platDaoMemoire.ajouterPlat("moulesfrites", 1500);
 		
-		assertEquals(false, platDaoMemoire.listerPlats().isEmpty());
+		assertFalse(platDaoMemoire.listerPlats().isEmpty());
 	}
 }
