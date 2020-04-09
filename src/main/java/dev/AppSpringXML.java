@@ -9,18 +9,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import dev.ihm.Menu;
 
-/** Représentation 
+/** Migration de l'application vers Spring avec XML
  *
  * @author KOMINIARZ Anaïs
  *
  */
 public class AppSpringXML {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
+		// création du contexte Spring
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("application-config-fichier.xml");
 		
 		// récupération du bean Menu
@@ -28,9 +26,6 @@ public class AppSpringXML {
 		
 		// démarrage de l'application
 		menu.afficher();
-		
-		//fermeture du Scanner
-		context.getBean(Scanner.class).close();
 		
 		//fermeture du contexte Spring
 		context.close();

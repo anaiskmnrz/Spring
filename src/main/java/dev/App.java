@@ -8,6 +8,11 @@ import dev.service.PlatServiceVersion2;
 
 import java.util.Scanner;
 
+/** Classe App avant la migration vers Spring (mise en commentaires de certaines lignes car le constructeur Menu a été changé entre deux.
+ *
+ * @author ODDET Rossi
+ *
+ */
 public class App {
 
     public static void main(String[] args) {
@@ -23,9 +28,9 @@ public class App {
             PlatServiceVersion2 platServiceVersion2 = new PlatServiceVersion2(platDaoMemoire);
 
             // Construction du menu avec le service choisi
-            Menu menu = new Menu(scanner, platServiceVersion2);
+           // Menu menu = new Menu(scanner, platServiceVersion2);
 
-            menu.afficher();
+           // menu.afficher();
         }
     }
 }

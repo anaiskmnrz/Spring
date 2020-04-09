@@ -1,7 +1,12 @@
 package dev.ihm.options;
 
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Controller;
+
 import dev.service.IPlatService;
 
+@Order(1)
+@Controller
 public class OptionListerPlats implements IOptionMenu {
 
     private IPlatService service;
