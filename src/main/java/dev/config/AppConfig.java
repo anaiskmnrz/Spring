@@ -8,6 +8,7 @@ import java.util.Scanner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
 /** Représentation de la configuration de l'application
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @ComponentScan({"dev.ihm","dev.service","dev.dao"})
 @PropertySource("app.properties")
+@Import({DataSourceConfig.class, JpaConfig.class})
 public class AppConfig {
 
 	@Bean

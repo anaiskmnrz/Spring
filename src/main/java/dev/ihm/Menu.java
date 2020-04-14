@@ -9,10 +9,6 @@ import org.springframework.stereotype.Controller;
 
 import dev.exception.PlatException;
 import dev.ihm.options.IOptionMenu;
-import dev.ihm.options.OptionAjouterPlat;
-import dev.ihm.options.OptionListerPlats;
-import dev.ihm.options.OptionTerminer;
-import dev.service.IPlatService;
 
 @Controller
 public class Menu {

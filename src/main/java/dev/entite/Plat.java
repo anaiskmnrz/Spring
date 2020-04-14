@@ -2,17 +2,29 @@ package dev.entite;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity 
+@Table
 public class Plat {
 
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	private Integer id;
     private String nom;
-    private Integer prixEnCentimesEuros;
+    private Integer prix;
 
     public Plat() {
     }
 
-    public Plat(String nom, Integer prixEnCentimesEuros) {
+    public Plat(String nom, Integer prix) {
         this.nom = nom;
-        this.prixEnCentimesEuros = prixEnCentimesEuros;
+        this.prix = prix;
     }
 
     public String getNom() {
@@ -21,14 +33,6 @@ public class Plat {
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public Integer getPrixEnCentimesEuros() {
-        return prixEnCentimesEuros;
-    }
-
-    public void setPrixEnCentimesEuros(Integer prixEnCentimesEuros) {
-        this.prixEnCentimesEuros = prixEnCentimesEuros;
     }
 
     @Override
@@ -43,4 +47,36 @@ public class Plat {
     public int hashCode() {
         return Objects.hash(nom);
     }
+
+	/** Getter
+	 *
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/** Setter
+	 *
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/** Getter
+	 *
+	 * @return the prix
+	 */
+	public Integer getPrix() {
+		return prix;
+	}
+
+	/** Setter
+	 *
+	 * @param prix the prix to set
+	 */
+	public void setPrix(Integer prix) {
+		this.prix = prix;
+	}
 }
