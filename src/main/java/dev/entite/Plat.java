@@ -1,15 +1,17 @@
 package dev.entite;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity 
-@Table
 public class Plat {
 
 	
@@ -18,6 +20,10 @@ public class Plat {
 	private Integer id;
     private String nom;
     private Integer prix;
+    
+    @ManyToMany(mappedBy="plats")
+    private List<Ingredient> ingredients;
+
 
     public Plat() {
     }
