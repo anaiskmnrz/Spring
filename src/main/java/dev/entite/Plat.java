@@ -85,4 +85,20 @@ public class Plat {
 	public void setPrix(Integer prix) {
 		this.prix = prix;
 	}
+
+	/** Getter
+	 *
+	 * @return the ingredients
+	 */
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	/** Setter
+	 *
+	 * @param ingredients the ingredients to set
+	 */
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
 }

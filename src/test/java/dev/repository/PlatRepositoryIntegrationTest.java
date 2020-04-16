@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -28,7 +29,7 @@ import dev.config.JpaConfig;
 import dev.entite.Plat;
 import dev.exception.PlatException;
 
-/** Représentation 
+/** Tests de repository 
  *
  * @author KOMINIARZ Anaïs
  *
@@ -36,13 +37,16 @@ import dev.exception.PlatException;
 @ActiveProfiles("jpa")
 @SpringJUnitConfig({JpaConfig.class})
 @Import(DataSourceH2TestConfig.class)
+//@Transactional peut mettre ici et ça s'applique à tous
 public class PlatRepositoryIntegrationTest {
 	
 	@Autowired
 	PlatRepository repository;
-
-	 private static final Logger LOGGER = Logger.getLogger(PlatRepositoryIntegrationTest.class.getName());
 	
+	//pour les tests on peut faire le constructeur pour injection de dépendance? 
+
+	//private static final Logger LOGGER = Logger.getLogger(PlatRepositoryIntegrationTest.class.getName());
+	 
 	@Test
 	void testFindAll() {
 		assertFalse(repository.findAll().isEmpty());
@@ -51,7 +55,7 @@ public class PlatRepositoryIntegrationTest {
 	
 	@Test
 	void testFindAllSortAsc() {
-		Sort tri = Sort.sort(Plat.class)
+		/*Sort tri = Sort.sort(Plat.class)
 				.by(Plat::getPrix)
 				.ascending();
 		
@@ -61,7 +65,6 @@ public class PlatRepositoryIntegrationTest {
 		listeAjout.add(new Plat("Côte de boeuf",1100));
 		listeAjout.add(new Plat("Magret de canard",1300));
 		listeAjout.add(new Plat("Moules-frites",1300));
-		listeAjout.add(new Plat("Saumon",1400));
 		listeAjout.add(new Plat("Blanquette de veau",1500));
 		listeAjout.add(new Plat("Couscous",1600));
 		listeAjout.add(new Plat("Gigot d'agneau",2500));
@@ -76,14 +79,17 @@ public class PlatRepositoryIntegrationTest {
 		listeAjoutNonTriee.add(new Plat("Gigot d'agneau",2500));
 		listeAjoutNonTriee.add(new Plat("Couscous",1600));
 
-		assertThat(listeAjoutNonTriee).isNotEqualTo(listeRecup);
-		
+		assertThat(listeAjoutNonTriee).isNotEqualTo(listeRecup);*/
+		Sort sort = Sort.sort(Plat.class).by(Plat::getPrix).ascending();
+
+		assertThat(repository.findAll(sort))
+				.isSortedAccordingTo(Comparator.comparing(Plat::getPrix));
 	}
 	
 	@Test
 	void testFindAllSortDesc() {
 		
-		Sort tri = Sort.sort(Plat.class)
+		/*Sort tri = Sort.sort(Plat.class)
 				.by(Plat::getPrix)
 				.descending();
 		
@@ -94,8 +100,6 @@ public class PlatRepositoryIntegrationTest {
 		listeAjout.add(new Plat("Gigot d'agneau",2500));
 		listeAjout.add(new Plat("Couscous",1600));
 		listeAjout.add(new Plat("Blanquette de veau",1500));
-		// TODO pourquoi saumon n'est pas pris en compte ? 
-		//listeAjout.add(new Plat("Saumon",1400));
 		listeAjout.add(new Plat("Magret de canard",1300));
 		listeAjout.add(new Plat("Moules-frites",1300));
 		listeAjout.add(new Plat("Côte de boeuf",1100));
@@ -111,29 +115,42 @@ public class PlatRepositoryIntegrationTest {
 		listeAjoutNonTriee.add(new Plat("Gigot d'agneau",2500));
 		listeAjoutNonTriee.add(new Plat("Couscous",1600));
 
-		assertThat(listeAjoutNonTriee).isNotEqualTo(listeRecup);
+		assertThat(listeAjoutNonTriee).isNotEqualTo(listeRecup);*/
+		
+		Sort sort = Sort.sort(Plat.class).by(Plat::getPrix).descending();
+
+		assertThat(repository.findAll(sort))
+				.isSortedAccordingTo(Comparator.comparing(Plat::getPrix).reversed());
 		
 	}
 	
+	
+	//containsExactly compare que le nom aussi ?? 
 	@Test
 	void testFindAllPageable() {
 
-	Pageable page = PageRequest.of(0, 2, Sort.by("nom").ascending());
-	Page<Plat> platPagination = repository.findAll(page);
+		Pageable page = PageRequest.of(0, 2, Sort.by("nom").ascending());
 	
-	assertThat(platPagination.getContent().get(0).getNom()).isEqualTo("Blanquette de veau");
-	assertThat(platPagination.getContent().get(1).getNom()).isEqualTo("Couscous");
+		assertThat(repository.findAll(page)).containsExactly(new Plat("Blanquette de veau", 1500), 
+			new Plat("Couscous",1600));
+		/*Page<Plat> platPagination = repository.findAll(page);
 	
+		assertThat(platPagination.getContent().get(0).getNom()).isEqualTo("Blanquette de veau");
+		assertThat(platPagination.getContent().get(1).getNom()).isEqualTo("Couscous");
+		 */
 	}
 	
 	@Test
 	void testFindById() {
 		Optional<Plat> findById = repository.findById(2);
 		
+		// Optionnal<Plat>
 		Plat platRecup = findById.orElseThrow(() -> new PlatException());
 		Plat platAjout = new Plat("Moules-frites",1300);
 		
 		assertThat(platRecup).isEqualTo(platAjout);
+		
+		// correction : assertThat(platRepo.findById(1)).hasValue(new Plat("Magret de canard", 0));
 	}
 	
 	@Test 
@@ -148,7 +165,7 @@ public class PlatRepositoryIntegrationTest {
 	
 	@Test
 	void testCount() {
-		assertThat(repository.count()).isEqualByComparingTo((long) 6);
+		assertThat(repository.count()).isEqualTo(6);
 	}
 
 	@Test
@@ -162,12 +179,34 @@ public class PlatRepositoryIntegrationTest {
 	void testAvgprix() {
 		Double avgRecup = repository.avgPrix(1600);
 		assertThat(avgRecup).isEqualByComparingTo(2500.0);
+		
+		// correction avec BigDecimal et un arrondi
+		//BigDecimal result = platRepo.avgPrix(1300).setScale(2, RoundingMode.UP);
+		//assertThat(result).isEqualTo(new BigDecimal("1866.67"));
+	}
+	
+	// Pas de transactional car on utilise EntityGraph
+	// récupérer un plat et pouvoir aussi récupérer ses ingrédients
+	@Test
+	void testFindByNomWithIngredients() {
+		Plat plat = repository.findByNomWithIngredients("Magret de canard");
+		assertThat(plat.getIngredients()).hasSize(5);
 	}
 	
 	@Test
+	@Transactional // pour le rollback
 	void testSave() {
 		Plat plat = new Plat("Saumon", 1400);
 		repository.save(plat);
 		assertTrue(repository.findAll().contains(plat));
+	}
+	
+//.contains juste sur les noms?
+	@Transactional
+	@Test
+	void testChangerNom() {
+		repository.changerNom("Couscous", "Couscous epice");
+		assertThat(repository.findAll()).contains(new Plat("Couscous epice", 1600));
+		assertThat(repository.findAll()).doesNotContain(new Plat("Couscous",1600));
 	}
 }
